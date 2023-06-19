@@ -326,7 +326,7 @@ ORDER BY empolyees_count DESC ;
 
 
 /* Find Number Of Eployees In Each Posiotion Of Each Department*/
-SELECT COUNT(employees.emp_no) AS empolyees_count, departments.dept_name AS employee_position, titles.title AS employee_position FROM dept_emp
+SELECT COUNT(employees.emp_no) AS empolyees_count, departments.dept_name AS department_name, titles.title AS employee_position FROM dept_emp
 INNER JOIN employees
 ON employees.emp_no = dept_emp.emp_no
 INNER JOIN departments
@@ -339,3 +339,16 @@ ORDER BY departments.dept_name DESC ;
 /* 29.CONCAT*/
 /* Merge First Name And Last Into One Column*/
 SELECT CONCAT (first_name, ' ', last_name) AS employe_full_name FROM employees;
+
+/* 30.HAVING*/
+/* Display Which Department Has More Than 10000 Employee And What Is The Position Of Each Count Of Employee*/
+SELECT COUNT(employees.emp_no) AS empolyees_count, departments.dept_name AS department_name, titles.title AS employee_position FROM dept_emp
+INNER JOIN employees
+ON employees.emp_no = dept_emp.emp_no
+INNER JOIN departments
+ON departments.dept_no = dept_emp.dept_no
+INNER JOIN titles
+ON titles.emp_no = dept_emp.emp_no
+GROUP BY departments.dept_name, titles.title
+HAVING COUNT(employees.emp_no) > 10000
+ORDER BY departments.dept_name ASC ;
