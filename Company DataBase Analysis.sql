@@ -8,20 +8,27 @@ LIMIT 10;
 SELECT first_name, last_name, hire_date FROM employees
 ORDER BY hire_date DESC;
 
+/* 3. DELETE */
+/* DELETE Illogical Date */
+DELETE FROM salaries WHERE to_date='9999-01-01';
+DELETE FROM dept_emp WHERE to_date='9999-01-01';
+DELETE FROM dept_manager WHERE to_date='9999-01-01';
+DELETE FROM titles WHERE to_date='9999-01-01';
 
-/* 3. DISTINCT */
+/* 4. DISTINCT */
 /* Find The Unique First Name*/
 SELECT DISTINCT first_name FROM employees
 ORDER BY first_name;
 
-/* 4. COUNT */
+/* 5. COUNT */
 /* Find The Count Of Salary*/
 SELECT COUNT(salary) FROM salaries;
 
-/* 5. WHERE */
+/* 6. WHERE */
 /* Display Employee ID With Salary More Than 50000*/
 SELECT emp_no, salary FROM salaries
 WHERE salary > 50000
+
 ORDER BY emp_no ASC
 LIMIT 20;
 
@@ -48,14 +55,14 @@ AND first_name = 'Bezalel'
 OR first_name = 'Anneke'
 LIMIT 20;
 
-/* 6. BETWEEN */
+/* 7. BETWEEN */
 /* Display The Salary Between 1986-06-26 AND 1999-02-08 And Salary More Than 80000*/
 SELECT * FROM salaries
 WHERE from_date BETWEEN '1986-06-26' AND '1999-02-08'
 AND salary > 80000
 LIMIT 25;
 
-/* 7. LIKE */
+/* 8. LIKE */
 /* Display Employees Whose First Name Start With G, Last Name Start With F, Gender Male And Birth Date Bigger Than 1960-01-01*/
 SELECT * FROM employees 
 WHERE first_name LIKE 'G%' AND last_name LIKE 'F%' 
@@ -68,21 +75,21 @@ WHERE first_name LIKE '%d%' AND last_name LIKE '%t%'
 AND gender = 'M' AND birth_date > '1960-01-01'
 LIMIT 20;
 
-/* 8. ILIKE */
+/* 9. ILIKE */
 /* Display Employees Whose First Name Contain u Or U, Last Name Contain b Or B, Gender Male And Birth Date Bigger Than 1960-01-01*/
 SELECT * FROM employees 
 WHERE first_name ILIKE 'u%' AND last_name ILIKE 'b%' 
 AND gender = 'M' AND birth_date > '1960-01-01'
 LIMIT 20;
 
-/* 9. NOT LIKE */
+/* 10. NOT LIKE */
 /* Display Employees Whose First Name Does Not Contain c, Last Name Does Not Contain m, Gender Male And Birth Date Bigger Than 1960-01-01*/
 SELECT * FROM employees 
 WHERE first_name NOT LIKE '%c%' AND last_name NOT LIKE '%m%' 
 AND gender = 'M' AND birth_date > '1960-01-01'
 LIMIT 20;
 
-/* 10. AS */
+/* 11. AS */
 /* Set Title To Select Column*/
 SELECT emp_no, title AS employee_position, from_date, to_date
 FROM titles;
@@ -96,30 +103,30 @@ ORDER BY first_name DESC
 LIMIT 20;
 
 
-/* 11. Aggregation */
+/* 12. Aggregation */
 /* Display Sum, Maximum, Minumum, And Average Of Salary*/
 SELECT SUM(salary) AS sum_of_salary, AVG(salary) AS average_of_salary,
 MIN(salary) AS minimum_salary, MAX(salary) AS maximum_salary
 FROM salaries
 WHERE from_date = '1986-06-26' AND to_date = '1987-06-26';
 
-/* 12. SUBSTRING */
+/* 13. SUBSTRING */
 /* Start 3 Letter From First Name Start From Position 3*/
 SELECT first_name, SUBSTRING(first_name FROM 3 FOR 3) FROM employees
 LIMIT 20;
 
-/* 13. EXTRACT */
+/* 14. EXTRACT */
 /* Extarct Year From Date*/
 SELECT EXTRACT(YEAR FROM TIMESTAMP '2016-12-31 13:30:15');
 
-/* 14. TO_CHAR */
+/* 15. TO_CHAR */
 /* Convert BirthDate From Date To Text Type*/
 SELECT first_name, last_name, birth_date,
 TO_CHAR(birth_date, 'DD-MON-YYYY') AS birthday
 FROM employees
 ORDER BY birth_date DESC;
 
-/* 15. CASE */
+/* 16. CASE */
 /* Split The Salary Into 3 Categories*/
 SELECT salary, emp_no,
 CASE 
@@ -130,41 +137,41 @@ END
 FROM salaries
 ORDER BY salary DESC;
 
-/* 16. REPLACE */
+/* 17. REPLACE */
 /* Cahnge Empoloyee Position From Technique Leader To Technique */
 SELECT title, emp_no,
 REPLACE (title, 'Technique Leader', 'Technique') AS new_title
 FROM titles
 WHERE title = 'Technique Leader';
 
-/* 17. INNER JOIN */
+/* 18. INNER JOIN */
 /* Disply The Salary Of Each Empoylee*/
 SELECT first_name, last_name, salaries.salary FROM employees
 INNER JOIN salaries
 ON employees.emp_no = salaries.emp_no
 ;
 
-/* 18. FULL OUTER JOIN */
+/* 19. FULL OUTER JOIN */
 /* Disply The Salary Of Each Empoylee*/
 SELECT first_name, last_name, salaries.salary FROM employees
 FULL OUTER JOIN salaries 
 ON employees.emp_no = salaries.emp_no;
 
-/* 19. LEFT OUTER JOIN */
+/* 20. LEFT OUTER JOIN */
 /* Disply The Salary Of Each Empoylee*/
 SELECT first_name, last_name, salaries.salary FROM employees
 LEFT OUTER JOIN salaries 
 ON employees.emp_no = salaries.emp_no;
 
-/* 20. RIGHT OUTER JOIN */
+/* 21. RIGHT OUTER JOIN */
 /* Disply The Salary Of Each Empoylee*/
 SELECT first_name, last_name, salaries.salary FROM employees
 RIGHT OUTER JOIN salaries 
 ON employees.emp_no = salaries.emp_no;
 
-/* 21. Multiple INNER JOIN*/
+/* 22. Multiple INNER JOIN*/
 /* Disply The Salary Of Each Empoylee And His Position And His Department*/
-SELECT first_name, last_name, salaries.salary, departments.dept_name AS department_name, titles.title AS employee_position FROM employees
+SELECT first_name, last_name, salaries.salary,dept_emp.from_date, dept_emp.to_date, departments.dept_name AS department_name, titles.title AS employee_position FROM employees
 INNER JOIN dept_emp 
 ON dept_emp.emp_no = employees.emp_no
 INNER JOIN departments
@@ -174,7 +181,7 @@ ON employees.emp_no = salaries.emp_no
 INNER JOIN titles
 ON employees.emp_no = titles.emp_no;
 
-/* 22. Multiple FULL OUTER JOIN*/
+/* 23. Multiple FULL OUTER JOIN*/
 /* Disply The Salary Of Each Empoylee And His Position And His Department*/
 SELECT first_name, last_name, salaries.salary, departments.dept_name AS department_name, titles.title AS employee_position FROM employees
 FULL OUTER JOIN dept_emp 
@@ -186,7 +193,7 @@ ON employees.emp_no = salaries.emp_no
 FULL OUTER JOIN titles
 ON employees.emp_no = titles.emp_no;
 
-/* 23. Multiple RIGHT OUTER JOIN*/
+/* 24. Multiple RIGHT OUTER JOIN*/
 /* Disply The Salary Of Each Empoylee And His Position And His Department*/
 SELECT first_name, last_name, salaries.salary, departments.dept_name AS department_name, titles.title AS employee_position FROM employees
 RIGHT OUTER JOIN dept_emp 
@@ -198,7 +205,7 @@ ON employees.emp_no = salaries.emp_no
 RIGHT OUTER JOIN titles
 ON employees.emp_no = titles.emp_no;
 
-/* 24. Multiple LEFT OUTER JOIN*/
+/* 25. Multiple LEFT OUTER JOIN*/
 /* Disply The Salary Of Each Empoylee And His Position And His Department*/
 SELECT first_name, last_name, salaries.salary, departments.dept_name AS department_name, titles.title AS employee_position FROM employees
 LEFT OUTER JOIN dept_emp 
@@ -211,7 +218,7 @@ LEFT OUTER JOIN titles
 ON employees.emp_no = titles.emp_no
 ;
 
-/* 25. SUBQUERIES */
+/* 26. SUBQUERIES */
 /* Disply The Employees Whose Thier Salary More Than Average Salary*/
 SELECT first_name, last_name, salaries.salary FROM employees
 INNER JOIN salaries
@@ -244,7 +251,7 @@ INNER JOIN titles
 ON employees.emp_no = titles.emp_no
 WHERE salary < (SELECT AVG(salary) FROM salaries);
 
-/* 26.Correlated Subqueries*/
+/* 27.Correlated Subqueries*/
 /* Find The Employees Whose Salaries Are Higher Than Average*/
 SELECT first_name, last_name, salaries.salary FROM employees
 INNER JOIN salaries
@@ -252,7 +259,7 @@ ON employees.emp_no = salaries.emp_no
 WHERE salary > (SELECT AVG(salary) FROM salaries WHERE employees.hire_date = employees.hire_date)
 LIMIT 20;
 
-/* 27.View*/
+/* 28.View*/
 CREATE VIEW salaries_less_than_average
 AS
 SELECT first_name, last_name, salaries.salary, departments.dept_name AS department_name, titles.title AS employee_position FROM employees
@@ -269,7 +276,7 @@ AND first_name LIKE 'C%'
 ;
 SELECT * FROM salaries_less_than_average;
 
-/* 28.GROUP BY*/
+/* 29.GROUP BY*/
 /* Find Total Salary Of Each Department*/
 SELECT SUM(salaries.salary) AS sum_of_salary, departments.dept_name FROM dept_emp
 INNER JOIN salaries
@@ -336,11 +343,11 @@ ON titles.emp_no = dept_emp.emp_no
 GROUP BY departments.dept_name, titles.title
 ORDER BY departments.dept_name DESC ;
 
-/* 29.CONCAT*/
+/* 30.CONCAT*/
 /* Merge First Name And Last Into One Column*/
 SELECT CONCAT (first_name, ' ', last_name) AS employe_full_name FROM employees;
 
-/* 30.HAVING*/
+/* 31.HAVING*/
 /* Display Which Department Has More Than 10000 Employee And What Is The Position Of Each Count Of Employee*/
 SELECT COUNT(employees.emp_no) AS empolyees_count, departments.dept_name AS department_name, titles.title AS employee_position FROM dept_emp
 INNER JOIN employees
