@@ -47,12 +47,15 @@ SELECT * FROM employees
 WHERE first_name LIKE '%d%' AND last_name LIKE '%t%' ;
 
 /* 8. ILIKE */
-/* Display Employees Whose First Name Contain u Or U, Last Name Contain b Or B, Gender Male And Birth Date Bigger Than 1960-01-01*/
+/* Display Employees Whose First Name Contain u Or U, Last Name Contain b Or B*/
 SELECT * FROM employees 
-WHERE first_name ILIKE 'u%' OR last_name ILIKE 'b%' ;
+WHERE first_name ILIKE '%u%' OR first_name ILIKE '%U%'
+OR
+last_name LIKE '%b%'  OR first_name ILIKE '%B%'
+;
 
 /* 9. NOT LIKE */
-/* Display Employees Whose First Name Does Not Contain c, Last Name Does Not Contain m, Gender Male And Birth Date Bigger Than 1960-01-01*/
+/* Display Employees Whose First Name Does Not Contain c, Last Name Does Not Contain m*/
 SELECT * FROM employees 
 WHERE first_name NOT LIKE '%c%' AND last_name NOT LIKE '%m%';
 
@@ -87,14 +90,12 @@ ORDER BY hire_date DESC;
 
 /* 15. CASE */
 /* Split The Salary Into 3 Categories*/
-SELECT salary, employee_id,
-CASE 
-WHEN salary > 10000 THEN 'High Salary'
-WHEN salary <= 1000  OR  salary >= 5000  THEN  'Medium Salary'
-WHEN salary < 5000 THEN 'Low Salary'
-END
+SELECT 
+COUNT(CASE WHEN salary > 10000 THEN 'High Salary' END) AS high_salary,
+COUNT(CASE WHEN salary <= 1000  OR  salary >= 5000  THEN  'Medium Salary' END) AS medium_salary,
+COUNT(CASE WHEN salary < 5000 THEN 'Low Salary' END) AS low_salary
 FROM employees
-ORDER BY salary DESC;
+
 
 /* 16. REPLACE */
 /* Cahnge Empoloyee Position From Human Resources  To HR */
@@ -121,6 +122,11 @@ SELECT employees.first_name AS employeee_first_name, employees.last_name AS empl
 INNER JOIN dependents
 ON employees.employee_id = dependents.employee_id;
 
+/* Disply The Dependents Of Each Empoylee*/
+SELECT employees.first_name AS employeee_first_name, employees.last_name AS employeee_last_name, employees.salary, dependents.first_name, dependents.last_name, dependents.relationship  FROM employees
+INNER JOIN  dependents
+ON employees.employee_id = dependents.employee_id;
+
 /* 18. FULL OUTER JOIN */
 /* Disply The Department Of Each Empoylee*/
 SELECT first_name, last_name, hire_date, salary, departments.department_name FROM employees
@@ -135,7 +141,7 @@ ON employees.job_id = jobs.job_id
 ;
 
 /* Disply The Dependents Of Each Empoylee*/
-SELECT employees.first_name AS employeee_first_name, employees.last_name AS employeee_last_name, employees.salary, dependents.first_name, dependents.last_name, dependents.relationship  FROM employees
+SELECT employees.first_name AS employeee_first_name, employees.last_name AS employeee_last_name, employees.salary AS employees_salary, dependents.first_name AS dependents_first_name, dependents.last_name AS dependents_last_name, dependents.relationship AS dependents_realtionship  FROM employees
 FULL OUTER JOIN dependents
 ON employees.employee_id = dependents.employee_id;
 
@@ -199,14 +205,14 @@ INNER JOIN jobs
 ON employees.job_id = jobs.job_id
 
 /* Disply The Location Of Each Department*/
-SELECT employees.first_name, employees.last_name, employees.hire_date, employees.salary,department_name, locations.street_address, locations.city FROM departments
+SELECT employees.first_name, employees.last_name, employees.salary,department_name, locations.city FROM departments
 INNER JOIN employees
 ON employees.department_id = departments.department_id
 INNER JOIN locations
 ON departments.location_id = locations.location_id
 
 /* Disply The Country Of Each Department*/
-SELECT countries.country_name, departments.department_name, street_address, city FROM locations
+SELECT countries.country_name, departments.department_name, city FROM locations
 INNER JOIN countries
 ON countries.country_id = locations.country_id
 INNER JOIN departments
@@ -365,11 +371,11 @@ GROUP BY departments.department_name
 ORDER BY sum_of_salary DESC;
 
 /* Find Average Salary OF Each Position*/
-SELECT ROUND(AVG(salary)) AS average_of_salary, jobs.job_title FROM employees
+SELECT  jobs.job_title, ROUND(AVG(salary)) AS average_of_salary FROM employees
 INNER JOIN jobs
 ON jobs.job_id = employees.job_id
 GROUP BY jobs.job_title
-ORDER BY sum_of_salary DESC;
+ORDER BY average_of_salary DESC;
 
 /* 30.CONCAT*/
 /* Merge First Name And Last Into One Column*/
