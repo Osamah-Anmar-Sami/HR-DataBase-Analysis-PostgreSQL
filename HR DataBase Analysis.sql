@@ -32,7 +32,7 @@ SELECT department_id,  department_name FROM departments
 WHERE department_name = 'Sales';
 
 /* 6. BETWEEN */
-/* Display The Salary Between 1987-06-17 AND 1999-01-01 And Salary More Than 10000*/
+/* Display The Salary Of Employess Hired Between 1987-06-17 AND 1999-01-01 And Salary More Than 10000*/
 SELECT * FROM employees
 WHERE hire_date BETWEEN '1987-06-17' AND '1999-01-01'
 AND salary > 10000;
