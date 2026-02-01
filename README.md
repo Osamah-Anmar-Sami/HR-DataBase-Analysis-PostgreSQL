@@ -3,7 +3,7 @@
 This project involves analyzing HR data using PostgreSQL to extract valuable insights regarding employee salary, department, age, and job title. The primary goal is to perform a series of SQL queries to explore various aspects of the HR dataset, providing a comprehensive understanding of number of employees in each department and the salary of the the employees.
 
 # Data 
-https://www.sqltutorial.org/sql-sample-database/
+https://onecompiler.com/postgresql/3zwe6bbhz
 
 #  Project Structure
 **SQL Queries**: The core of the analysis is done through SQL queries that interact with the HR database. These queries are designed to answer specific business questions.
