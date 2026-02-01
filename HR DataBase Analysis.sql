@@ -19,13 +19,12 @@ SELECT COUNT(employee_id) FROM employees;
 SELECT employee_id, salary FROM employees
 WHERE salary > 10000
 ORDER BY employee_id ASC
-LIMIT 20;
+LIMIT 5;
 
 /* Display Employee ID With Salary More Than 15000*/
 SELECT employee_id, salary FROM employees
 WHERE salary > 15000
-ORDER BY employee_id ASC
-LIMIT 20;
+ORDER BY employee_id ASC;
 
 /* Display Department ID Whose Department Name Sales */
 SELECT department_id,  department_name FROM departments 
@@ -82,7 +81,7 @@ LIMIT 20;
 SELECT EXTRACT(YEAR FROM TIMESTAMP '2016-12-31 13:30:15');
 
 /* 14. TO_CHAR */
-/* Convert BirthDate From Date To Text Type*/
+/* Convert HireDate From Date To Text Type*/
 SELECT first_name, last_name, hire_date,
 TO_CHAR(hire_date, 'DD-MON-YYYY') AS hire
 FROM employees
@@ -158,7 +157,7 @@ ON employees.job_id = jobs.job_id
 ;
 
 /* Disply The Dependents Of Each Empoylee*/
-SELECT employees.first_name AS employeee_first_name, employees.last_name AS employeee_last_name, employees.salary, dependents.first_name, dependents.last_name, dependents.relationship  FROM employees
+SELECT employees.employee_id  AS employeee_id, dependents.relationship  FROM employees
 LEFT OUTER JOIN dependents
 ON employees.employee_id = dependents.employee_id;
 
@@ -336,7 +335,7 @@ WHERE salary > (SELECT AVG(salary) FROM employees WHERE hire_date > '1995-01-01'
 /* 28.View*/
 CREATE VIEW salaries_less_than_average
 AS
-SELECT employees.first_name AS employee_first_name, employees.last_name AS employee_last_name, employees.salary, jobs.job_title, departments.department_name, dependents.first_name AS dependents_fisrt_name, dependents.last_name AS dependents_last_name FROM employees
+SELECT employees.first_name AS employee_first_name, employees.last_name AS employee_last_name, employees.salary, jobs.job_title, departments.department_name FROM employees
 INNER JOIN jobs 
 ON employees.job_id = jobs.job_id
 INNER JOIN departments
@@ -368,7 +367,7 @@ SELECT ROUND(AVG(salary)) AS average_of_salary, departments.department_name FROM
 INNER JOIN departments
 ON departments.department_id = employees.department_id
 GROUP BY departments.department_name
-ORDER BY sum_of_salary DESC;
+ORDER BY average_of_salary DESC;
 
 /* Find Average Salary OF Each Position*/
 SELECT  jobs.job_title, ROUND(AVG(salary)) AS average_of_salary FROM employees
